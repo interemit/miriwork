@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Testpage</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#test_get_simple").click(function () {
+                $.get('http://localhost:64000/services/SimpleRequest?simplestring=Hello+World',
+                    function(data) {
+                        alert(data.simpleString);
+                    })
+                .fail(function (jqXHR) {
+                    alert(jqXHR.responseJSON.message);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="test_get_simple">Test Get SimpleRequest</button>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Testpage</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#test_get_bar").click(function () {
+                $.get('http://localhost:5000/services/BarRequest?stringvalue=Hello+World&intvalue=1',
+                    function(data) {
+                        alert(data.stringValue + ", " + data.intValue);
+                    })
+                .fail(function (jqXHR) {
+                    alert(jqXHR.responseJSON.errorMessage);
+                });
+            });
+            $("#test_put_bar").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/services/BarRequest",
+                    type: 'PUT',
+                    data: JSON.stringify({ 'stringValue': "Hello World", 'intValue': 1 }),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        alert(data.stringValue + ", " + data.intValue);
+                    }
+                });
+            });
+            $("#test_post_bar").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/services/BarRequest",
+                    type: 'POST',
+                    data: JSON.stringify({ 'stringValue': "Hello World", 'intValue': 1 }),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        alert(data.stringValue + ", " + data.intValue);
+                    }
+                });
+            });
+            $("#test_delete_bar").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/services/BarRequest?stringvalue=Hello+World&intvalue=1",
+                    type: 'DELETE',
+                    success: function(data) {
+                        alert(data.stringValue + ", " + data.intValue);
+                    }
+                });
+            });
+
+            $("#test_get_foo").click(function () {
+                $.get('http://localhost:5000/services/FooRequest?stringvalue2=Hello+World&intvalue2=1',
+                    function(data) {
+                        alert(data.stringValue2 + ", " + data.intValue2);
+                    });
+            });
+            $("#test_put_foo").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/services/FooRequest",
+                    type: 'PUT',
+                    data: JSON.stringify({ 'stringValue2': "Hello World", 'intValue2': 1 }),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        alert(data.stringValue2 + ", " + data.intValue2);
+                    }
+                });
+            });
+            $("#test_post_foo").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/services/FooRequest",
+                    type: 'POST',
+                    data: JSON.stringify({ 'stringValue2': "Hello World", 'intValue2': 1 }),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        alert(data.stringValue2 + ", " + data.intValue2);
+                    }
+                });
+            });
+            $("#test_delete_foo").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/services/FooRequest?stringvalue2=Hello+World&intvalue2=1",
+                    type: 'DELETE',
+                    success: function(data) {
+                        alert(data.stringValue2 + ", " + data.intValue2);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- 
+        wwwroot contains the whole static content of every bounded context,
+        because client does not know everything about bounded contexts
+    -->
+    <button id="test_get_bar">Test Get BarRequest</button>
+    <button id="test_put_bar">Test Put BarRequest</button>
+    <button id="test_post_bar">Test Post BarRequest</button>
+    <button id="test_delete_bar">Test Delete BarRequest</button>
+    <p/>
+    <button id="test_get_foo">Test Get FooRequest</button>
+    <button id="test_put_foo">Test Put FooRequest</button>
+    <button id="test_post_foo">Test Post FooRequest</button>
+    <button id="test_delete_foo">Test Delete FooRequest</button>
+</body>
+</html>
