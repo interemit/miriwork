@@ -1,4 +1,4 @@
-# miriwork
+# Miriwork
 
 Miriwork is an addon for Asp .Net Core to provide **message-based communication** between client and server. It is based on some thoughts of **domain driven design** and can be used to separate the application logic - the application services - from the technical aspects (e.g. Controller of Asp .Net Core). Further it can help you to organize your application.
 
