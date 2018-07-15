@@ -13,7 +13,8 @@ public class SimpleBoundedContext : IBoundedContext
     public object Id => null;
 
     // assembly which contains application services
-    public ApplicationServicesAssembly ApplicationServicesAssembly => ApplicationServicesAssembly.FromCallingAssembly();
+    public ApplicationServicesAssembly ApplicationServicesAssembly => 
+        ApplicationServicesAssembly.FromCallingAssembly();
 
     // dependency injection of bounded context
     public RegistrationResult RegisterDependencies(IServiceCollection services)
