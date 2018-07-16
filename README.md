@@ -7,7 +7,7 @@ Miriwork is an addon for Asp .Net Core to provide **message-based communication*
 First you have to create one or more "bounded contexts". It depends on your application how to divide your domain in self-contained bounded contexts.
 
 ```C#
-public class SimpleBoundedContext : IBoundedContext
+public class SimpleBoundedContext : IMiriBoundedContext
 {
     // optional id of bounded context
     public object Id => null;
