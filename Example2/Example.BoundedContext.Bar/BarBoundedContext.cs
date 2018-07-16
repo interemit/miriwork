@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Example.Webhosting;
 using Microsoft.Extensions.DependencyInjection;
-using Miriwork;
 using Miriwork.Contracts;
 
 namespace Example.BoundedContext.Bar
 {
-    public class BarBoundedContext : IBoundedContext
+    public class BarBoundedContext : IMiriBoundedContext
     {
         public object Id => BoundedContextId.Bar;
 

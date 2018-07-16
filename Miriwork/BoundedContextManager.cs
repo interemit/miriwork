@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using Miriwork.Contracts;
 
 namespace Miriwork
 {
-    internal class BoundedContextManager : IBoundedContextsAccessor
+    internal class BoundedContextManager : IMiriBoundedContextsAccessor
     {
         private RequestMetadataFactory requestMetadataFactory;
 
-        private List<IBoundedContext> boundedContexts;
+        private List<IMiriBoundedContext> boundedContexts;
         private List<RequestMetadata> allRequestMetadata;
 
-        public IEnumerable<IBoundedContext> BoundedContexts => this.boundedContexts;
+        public IEnumerable<IMiriBoundedContext> BoundedContexts => this.boundedContexts;
         public IEnumerable<RequestMetadata> AllRequestMetadata => this.allRequestMetadata;
 
         public BoundedContextManager(MiriworkConfiguration miriworkConfiguration)
@@ -51,13 +50,13 @@ namespace Miriwork
             this.allRequestMetadata = CreateAllRequestMetadata();
         }
 
-        private List<IBoundedContext> CreateBoundedContexts(Type[] boundedContextTypes)
+        private List<IMiriBoundedContext> CreateBoundedContexts(Type[] boundedContextTypes)
         {
-            var boundedContextsTemp = new List<IBoundedContext>();
+            var boundedContextsTemp = new List<IMiriBoundedContext>();
             foreach (Type boundedContextType in boundedContextTypes)
             {
                 object boundedContextInstance = Activator.CreateInstance(boundedContextType);
-                if (!(boundedContextInstance is IBoundedContext boundedContext))
+                if (!(boundedContextInstance is IMiriBoundedContext boundedContext))
                     throw new ArgumentException($"Bounded context {boundedContextType.Name} does not implement IBoundedContext.");
 
                 boundedContextsTemp.Add(boundedContext);
@@ -69,7 +68,7 @@ namespace Miriwork
         private List<RequestMetadata> CreateAllRequestMetadata()
         {
             var allRequestMetadataTemp = new List<RequestMetadata>();
-            foreach (IBoundedContext boundedContext in this.boundedContexts)
+            foreach (IMiriBoundedContext boundedContext in this.boundedContexts)
             {
                 var requestMetadataOfBoundedContext = this.requestMetadataFactory.CreateRequestMetadata(
                     boundedContext.ApplicationServicesAssembly.Assembly);

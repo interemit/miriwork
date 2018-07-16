@@ -78,7 +78,7 @@ namespace Miriwork
             else
                 boundedContextManager.Init(boundedContextTypes);
 
-            services.AddSingleton<IBoundedContextsAccessor>(boundedContextManager);
+            services.AddSingleton<IMiriBoundedContextsAccessor>(boundedContextManager);
             
             return boundedContextManager;
         }
@@ -149,7 +149,7 @@ namespace Miriwork
             if (miriworkConfiguration?.DependenciesRegistrationType == DependenciesRegistrationType.DependenciesRegisteredByApplication)
                 return;
 
-            foreach (IBoundedContext boundedContext in boundedContextManager.BoundedContexts)
+            foreach (IMiriBoundedContext boundedContext in boundedContextManager.BoundedContexts)
             {
                 RegistrationResult registrationResult = boundedContext.RegisterDependencies(services);
 

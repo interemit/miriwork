@@ -63,8 +63,8 @@ namespace Example.Webhosting
             var applicationContainer = new MultitenantContainer(strategy, container);
 
             // register components of bounded contexts
-            var boundedContextsAccessor = container.Resolve<IBoundedContextsAccessor>();
-            foreach (IBoundedContext bc in boundedContextsAccessor.BoundedContexts)
+            var boundedContextsAccessor = container.Resolve<IMiriBoundedContextsAccessor>();
+            foreach (IMiriBoundedContext bc in boundedContextsAccessor.BoundedContexts)
             {
                 var registrationResult = bc.RegisterDependencies(services);
                 var boundedContextDependencies = registrationResult.DependenciesModuleAs<BoundedContextDependencies>();

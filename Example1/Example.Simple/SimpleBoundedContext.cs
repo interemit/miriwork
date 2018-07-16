@@ -3,7 +3,7 @@ using Miriwork.Contracts;
 
 namespace Example.Simple
 {
-    public class SimpleBoundedContext : IBoundedContext
+    public class SimpleBoundedContext : IMiriBoundedContext
     {
         public object Id => null;
 
