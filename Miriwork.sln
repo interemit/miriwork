@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miriwork", "Miriwork\Miriwork.csproj", "{B6FBA649-73F5-4B77-8B04-B1C3832AD837}"
 EndProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example1", "Example1", "{2F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.Simple", "Example1\Example.Simple\Example.Simple.csproj", "{BAC2C7DF-5098-4A7B-94B3-51A247F0C7C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miriwork.Tests", "Miriwork.Tests\Miriwork.Tests.csproj", "{E0D1219F-2CBC-4641-922B-04EC1B6188B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miriwork.Tests", "Miriwork.Tests\Miriwork.Tests.csproj", "{E0D1219F-2CBC-4641-922B-04EC1B6188B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
