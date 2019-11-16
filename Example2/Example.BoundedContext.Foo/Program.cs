@@ -1,4 +1,5 @@
 ﻿using Example.Webhosting;
+using Microsoft.AspNetCore.Hosting;
 using System;
 
 namespace Example.BoundedContext.Foo
@@ -7,7 +8,10 @@ namespace Example.BoundedContext.Foo
     {
         static void Main(string[] args)
         {
-            ApplicationWebHost.Run(args);
+            CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            ApplicationWebHostBuilder.CreateWebHostBuilder<FooStartup>(args);
     }
 }

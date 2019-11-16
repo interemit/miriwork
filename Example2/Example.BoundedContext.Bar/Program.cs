@@ -1,4 +1,5 @@
 using Example.Webhosting;
+using Microsoft.AspNetCore.Hosting;
 using System;
 
 namespace Example.BoundedContext.Bar
@@ -7,7 +8,10 @@ namespace Example.BoundedContext.Bar
     {
         static void Main(string[] args)
         {
-            ApplicationWebHost.Run(args);
+            CreateWebHostBuilder(args).Build().Run();
         }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            ApplicationWebHostBuilder.CreateWebHostBuilder<BarStartup>(args);
     }
 }

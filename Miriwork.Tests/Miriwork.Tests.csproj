@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Example1\Example.Simple\Example.Simple.csproj" />
+    <ProjectReference Include="..\Example2\Example.BoundedContext.Bar\Example.BoundedContext.Bar.csproj" />
     <ProjectReference Include="..\Miriwork\Miriwork.csproj" />
   </ItemGroup>
 
