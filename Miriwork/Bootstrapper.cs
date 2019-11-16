@@ -139,8 +139,7 @@ namespace Miriwork
                 modelMetadataProvider);
 
             mvcbuilder.AddMvcOptions(options => options.ModelBinderProviders.Insert(0,
-                new MiriBodyModelBinderProvider(new List<IInputFormatter> { miriFormatter },
-                    tempServiceProvider.GetService<IHttpRequestStreamReaderFactory>())));
+                new MiriBodyModelBinderProvider(miriFormatter, tempServiceProvider.GetService<IHttpRequestStreamReaderFactory>())));
         }
 
         private static void RegisterDependenciesOfBoundedContexts(IServiceCollection services, MiriworkConfiguration miriworkConfiguration,

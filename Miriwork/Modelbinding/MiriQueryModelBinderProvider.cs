@@ -15,6 +15,7 @@ namespace Miriwork.Modelbinding
         public MiriQueryModelBinderProvider(IRequestContextAccessor requestContextAccessor,
             IModelMetadataProvider modelMetadataProvider, ILoggerFactory loggerFactory)
         {
+            // use a custom ModelBinderProvider to register the MiriQueryModelBinder
             this.requestContextAccessor = requestContextAccessor;
             this.modelMetadataProvider = modelMetadataProvider;
             this.loggerFactory = loggerFactory;
@@ -25,7 +26,7 @@ namespace Miriwork.Modelbinding
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            // use MiriQueryModelBinder only when ModelType is "object"
+            // use MiriQueryModelBinderProvider only when ModelType is "object" ("object" is used in MiriController)
             if (context.Metadata.ModelType == typeof(object)
                 && context.BindingInfo.BindingSource != null 
                 && context.BindingInfo.BindingSource.CanAcceptDataFrom(BindingSource.Query))

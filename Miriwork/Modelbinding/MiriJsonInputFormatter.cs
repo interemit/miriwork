@@ -27,10 +27,13 @@ namespace Miriwork.Modelbinding
 
         public override Task<InputFormatterResult> ReadAsync(InputFormatterContext context)
         {
-            // create new context with metadata of current request
+            // https://github.com/aspnet/Mvc/blob/master/src/Microsoft.AspNetCore.Mvc.Formatters.Json/JsonInputFormatter.cs
+
+            // create "RequestType"-ModelMetadata of current request
             RequestMetadata currentRequestMetadata = this.requestContextAccessor.RequestContext.RequestMetadata;
             ModelMetadata requestModel = this.modelMetadataProvider.GetMetadataForType(currentRequestMetadata.RequestType);
 
+            // create an default InputFormatterContext with the "RequestType"-ModelMetadata
             InputFormatterContext contextWithRequestModel = new InputFormatterContext(
                 context.HttpContext,
                 context.ModelName,

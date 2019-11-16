@@ -27,7 +27,9 @@ namespace Miriwork.Modelbinding
 
         protected override object CreateModel(ModelBindingContext bindingContext)
         {
-            // create modelmetadata of current request
+            // https://github.com/aspnet/AspNetCore/blob/master/src/Mvc/Mvc.Core/src/ModelBinding/Binders/ComplexTypeModelBinder.cs
+
+            // create "RequestType"-ModelMetadata of current request
             RequestMetadata currentRequestMetadata = this.requestContextAccessor.RequestContext.RequestMetadata;
             ModelMetadata requestModel = this.modelMetadataProvider.GetMetadataForType(currentRequestMetadata.RequestType);
 

@@ -12,9 +12,10 @@ namespace Miriwork.Modelbinding
         private readonly IList<IInputFormatter> formatters;
         private readonly IHttpRequestStreamReaderFactory readerFactory;
 
-        public MiriBodyModelBinderProvider(IList<IInputFormatter> formatters, IHttpRequestStreamReaderFactory readerFactory)
+        public MiriBodyModelBinderProvider(MiriJsonInputFormatter miriJsonInputFormatter, IHttpRequestStreamReaderFactory readerFactory)
         {
-            this.formatters = formatters;
+            // use a custom ModelBinderProvider to register the MiriJsonInputFormatter in the default BodyModelBinder
+            this.formatters = new List<IInputFormatter> { miriJsonInputFormatter };
             this.readerFactory = readerFactory;
         }
 
@@ -23,14 +24,11 @@ namespace Miriwork.Modelbinding
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            // use MiriBodyModelBinder only when ModelType is "object"
+            // use MiriBodyModelBinderProvider only when ModelType is "object" ("object" is used in MiriController)
             if (context.Metadata.ModelType == typeof(object) 
                 && context.BindingInfo.BindingSource != null 
                 && context.BindingInfo.BindingSource.CanAcceptDataFrom(BindingSource.Body))
             {
-                if (this.formatters.Count == 0)
-                    throw new InvalidOperationException("No formatters");
-
                 return new BodyModelBinder(this.formatters, this.readerFactory);
             }
 
