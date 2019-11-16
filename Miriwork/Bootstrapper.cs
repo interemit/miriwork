@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Caching.Memory;
@@ -21,31 +20,13 @@ namespace Miriwork
     internal static class Bootstrapper
     {
         public static void InitMiriwork(IMvcBuilder mvcbuilder, IServiceCollection services, 
-            string[] boundedContextTypeNames)
-        {
-            InitMiriwork(mvcbuilder, services, null, boundedContextTypeNames, null);
-        }
-
-        public static void InitMiriwork(IMvcBuilder mvcbuilder, IServiceCollection services, 
-            MiriworkConfiguration miriworkConfiguration, string[] boundedContextTypeNames)
-        {
-            InitMiriwork(mvcbuilder, services, miriworkConfiguration, boundedContextTypeNames, null);
-        }
-
-        public static void InitMiriwork(IMvcBuilder mvcbuilder, IServiceCollection services, 
             Type[] boundedContextTypes)
         {
-            InitMiriwork(mvcbuilder, services, null, null, boundedContextTypes);
+            InitMiriwork(mvcbuilder, services, null, boundedContextTypes);
         }
 
         public static void InitMiriwork(IMvcBuilder mvcbuilder, IServiceCollection services, 
             MiriworkConfiguration miriworkConfiguration, Type[] boundedContextTypes)
-        {
-            InitMiriwork(mvcbuilder, services, miriworkConfiguration, null, boundedContextTypes);
-        }
-
-        private static void InitMiriwork(IMvcBuilder mvcbuilder, IServiceCollection services, 
-            MiriworkConfiguration miriworkConfiguration, string[] boundedContextTypeNames, Type[] boundedContextTypes)
         {
             // add memorycache to cache http-requests
             services.AddMemoryCache();
@@ -57,7 +38,7 @@ namespace Miriwork
             services.AddHttpContextAccessor();
             var tempServiceProvider = services.BuildServiceProvider();
             var boundedContextManager = CreateBoundedContextManager(services, miriworkConfiguration,
-                boundedContextTypeNames, boundedContextTypes);
+                boundedContextTypes);
             var requestIdFromHttpContextAccessor = CreateRequestIdFromHttpContextProvider(tempServiceProvider);
             var requestContextManager = CreateRequestContextAccessor(services, boundedContextManager,
                 requestIdFromHttpContextAccessor, tempServiceProvider);
@@ -70,13 +51,10 @@ namespace Miriwork
         }
 
         private static BoundedContextManager CreateBoundedContextManager(IServiceCollection services, 
-            MiriworkConfiguration miriworkConfiguration, string[] boundedContextTypeNames, Type[] boundedContextTypes)
+            MiriworkConfiguration miriworkConfiguration, Type[] boundedContextTypes)
         {
             var boundedContextManager = new BoundedContextManager(miriworkConfiguration);
-            if (boundedContextTypeNames != null)
-                boundedContextManager.Init(boundedContextTypeNames);
-            else
-                boundedContextManager.Init(boundedContextTypes);
+            boundedContextManager.Init(boundedContextTypes);
 
             services.AddSingleton<IMiriBoundedContextsAccessor>(boundedContextManager);
             

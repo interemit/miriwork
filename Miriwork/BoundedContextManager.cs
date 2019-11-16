@@ -21,29 +21,6 @@ namespace Miriwork
                 miriworkConfiguration?.ResponseBaseType, miriworkConfiguration?.ApplicationServiceBaseType);
         }
 
-        public void Init(string[] boundedContextTypeNames)
-        {
-            Type[] boundedContextTypes = GetBoundedContextTypes(boundedContextTypeNames);
-            Init(boundedContextTypes);
-        }
-
-        private Type[] GetBoundedContextTypes(string[] boundedContextTypeNames)
-        {
-            List<Type> boundedContextTypes = new List<Type>();
-            foreach (string fullTypeName in boundedContextTypeNames)
-            {
-                Type type = GetBoundedContextType(fullTypeName);
-                boundedContextTypes.Add(type);
-            }
-
-            return boundedContextTypes.ToArray();
-        }
-
-        private Type GetBoundedContextType(string fullTypeName)
-        {
-            return Type.GetType(fullTypeName, name => Assembly.LoadFrom(name.Name + ".dll"), null);
-        }
-
         public void Init(Type[] boundedContextTypes)
         {
             this.boundedContexts = CreateBoundedContexts(boundedContextTypes);

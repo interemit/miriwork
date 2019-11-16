@@ -12,11 +12,13 @@ using Microsoft.Extensions.FileProviders;
 using Miriwork;
 using Miriwork.Contracts;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace Example.Webhosting
 {
-    public class ApplicationStartup
+    public abstract class ApplicationStartup
     {
         internal static MultitenantContainer ApplicationContainer;
 
@@ -30,18 +32,21 @@ namespace Example.Webhosting
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            Type[] boundedContextTypes = GetBoundedContextTypes(
+                "Example.BoundedContext.Bar.BarBoundedContext, Example.BoundedContext.Bar",
+                "Example.BoundedContext.Foo.FooBoundedContext, Example.BoundedContext.Foo");
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddMiriwork(services, new MiriworkConfiguration
-                {
-                    DependenciesRegistrationType = DependenciesRegistrationType.DependenciesRegisteredByApplication,
-                    RegisterApplicationServicesByMiriwork = false,
-                    RequestBaseType = typeof(IRequest),
-                    ResponseBaseType = typeof(IResponse),
-                    ApplicationServiceBaseType = typeof(IApplicationService)
-                },
-                "Example.BoundedContext.Bar.BarBoundedContext, Example.BoundedContext.Bar",
-                "Example.BoundedContext.Foo.FooBoundedContext, Example.BoundedContext.Foo");
+                    {
+                        DependenciesRegistrationType = DependenciesRegistrationType.DependenciesRegisteredByApplication,
+                        RegisterApplicationServicesByMiriwork = false,
+                        RequestBaseType = typeof(IRequest),
+                        ResponseBaseType = typeof(IResponse),
+                        ApplicationServiceBaseType = typeof(IApplicationService)
+                    }, 
+                    boundedContextTypes);
 
             ApplicationContainer = CreateApplicationContainer(services);
             return new AutofacServiceProvider(ApplicationContainer);
@@ -89,6 +94,32 @@ namespace Example.Webhosting
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
                 RequestPath = ""
             });
+        }
+
+        private Type[] GetBoundedContextTypes(params string[] boundedContextTypeNames)
+        {
+            List<Type> boundedContextTypes = new List<Type>();
+            foreach (string fullTypeName in boundedContextTypeNames)
+            {
+                Type type = Type.GetType(fullTypeName);
+                
+                // TODO: in UnitTests kann nur 1 BoundedContext getestet werden, aber beim richtigen
+                // Starten müssen(!) alle geladen werden -> wie dies unterscheiden?
+                if (type == null)
+                    type = GetBoundedContextTypeFromAssembly(fullTypeName);
+
+                if (type == null)
+                    throw new Exception($"Type {fullTypeName} not found");
+
+                boundedContextTypes.Add(type);
+            }
+
+            return boundedContextTypes.ToArray();
+        }
+
+        private Type GetBoundedContextTypeFromAssembly(string fullTypeName)
+        {
+            return Type.GetType(fullTypeName, name => Assembly.LoadFrom(name.Name + ".dll"), null);
         }
     }
 }
