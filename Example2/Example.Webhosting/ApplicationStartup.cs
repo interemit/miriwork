@@ -37,7 +37,7 @@ namespace Example.Webhosting
                 "Example.BoundedContext.Foo.FooBoundedContext, Example.BoundedContext.Foo");
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddMiriwork(services, new MiriworkConfiguration
                     {
                         DependenciesRegistrationType = DependenciesRegistrationType.DependenciesRegisteredByApplication,
