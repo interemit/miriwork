@@ -1,4 +1,3 @@
-using Example.Simple.Servicemodel;
 using Example.Webhosting.Servicemodel;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
