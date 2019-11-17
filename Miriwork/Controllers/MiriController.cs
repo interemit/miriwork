@@ -27,11 +27,10 @@ namespace Miriwork.Controllers
         /// <summary>
         /// Handles all GET-requests, e.g. "http://localhost:5000/services/BarRequest?stringvalue=HelloWorld".
         /// </summary>
-        /// <param name="requestName">name of request type</param>
         /// <param name="request">content of request as query parameters</param>
         /// <returns>response as json result</returns>
         [HttpGet("{requestName}")]
-        public async Task<IActionResult> Get([FromRoute] string requestName, [FromQuery] object request)
+        public async Task<IActionResult> Get([FromQuery] object request)
         {
             try
             {
@@ -47,11 +46,10 @@ namespace Miriwork.Controllers
         /// <summary>
         /// Handles all PUT-requests.
         /// </summary>
-        /// <param name="requestName">name of request type</param>
         /// <param name="request">content of request as body parameters</param>
         /// <returns>response as json result</returns>
         [HttpPut("{requestName}")]
-        public async Task<IActionResult> Put([FromRoute] string requestName, [FromBody] object request)
+        public async Task<IActionResult> Put([FromBody] object request)
         {
             try
             {
@@ -67,11 +65,10 @@ namespace Miriwork.Controllers
         /// <summary>
         /// Handles all POST-requests.
         /// </summary>
-        /// <param name="requestName">name of request type</param>
         /// <param name="request">content of request as body parameters</param>
         /// <returns>response as json result</returns>
         [HttpPost("{requestName}")]
-        public async Task<IActionResult> Post([FromRoute] string requestName, [FromBody] object request)
+        public async Task<IActionResult> Post([FromBody] object request)
         {
             try
             {
@@ -87,11 +84,10 @@ namespace Miriwork.Controllers
         /// <summary>
         /// Handles all DELETE-requests.
         /// </summary>
-        /// <param name="requestName">name of request type</param>
         /// <param name="request">content of request as query parameters</param>
         /// <returns>response as json result</returns>
         [HttpDelete("{requestName}")]
-        public async Task<IActionResult> Delete([FromRoute] string requestName, [FromQuery] object request)
+        public async Task<IActionResult> Delete([FromQuery] object request)
         {
             try
             {
