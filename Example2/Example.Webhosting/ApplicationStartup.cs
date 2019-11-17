@@ -45,7 +45,7 @@ namespace Example.Webhosting
                         RequestBaseType = typeof(IRequest),
                         ResponseBaseType = typeof(IResponse),
                         ApplicationServiceBaseType = typeof(IApplicationService)
-                    }, 
+                    },
                     boundedContextTypes);
 
             ApplicationContainer = CreateApplicationContainer(services);
@@ -102,16 +102,12 @@ namespace Example.Webhosting
             foreach (string fullTypeName in boundedContextTypeNames)
             {
                 Type type = Type.GetType(fullTypeName);
-                
-                // TODO: in UnitTests kann nur 1 BoundedContext getestet werden, aber beim richtigen
-                // Starten müssen(!) alle geladen werden -> wie dies unterscheiden?
                 if (type == null)
                     type = GetBoundedContextTypeFromAssembly(fullTypeName);
 
-                if (type == null)
-                    throw new Exception($"Type {fullTypeName} not found");
-
-                boundedContextTypes.Add(type);
+                // ignore type if not found (e.g. in unit tests)
+                if (type != null)
+                    boundedContextTypes.Add(type);
             }
 
             return boundedContextTypes.ToArray();
@@ -119,7 +115,9 @@ namespace Example.Webhosting
 
         private Type GetBoundedContextTypeFromAssembly(string fullTypeName)
         {
-            return Type.GetType(fullTypeName, name => Assembly.LoadFrom(name.Name + ".dll"), null);
+            return Type.GetType(fullTypeName, 
+                name => File.Exists(name.Name + ".dll") ? Assembly.LoadFrom(name.Name + ".dll") : null, 
+                null);
         }
     }
 }
