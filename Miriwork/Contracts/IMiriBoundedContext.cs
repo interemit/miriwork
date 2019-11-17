@@ -9,7 +9,7 @@ namespace Miriwork.Contracts
     public interface IMiriBoundedContext
     {
         /// <summary>
-        /// Id of bounded context, e.g. some enum.
+        /// Id of bounded context, e.g. some enum. Can be null if only one bounded context exists.
         /// </summary>
         object Id { get; }
 
