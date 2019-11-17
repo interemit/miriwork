@@ -3,6 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
+      // default-port: https://docs.microsoft.com/de-de/aspnet/core/fundamentals/servers/kestrel#endpoint-configuration
       "applicationUrl": "http://localhost:5000/",
       "sslPort": 0
     }
