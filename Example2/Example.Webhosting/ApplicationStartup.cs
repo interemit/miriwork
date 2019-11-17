@@ -24,9 +24,13 @@ namespace Example.Webhosting
 
         public IConfiguration Configuration { get; }
 
-        public ApplicationStartup(IConfiguration configuration)
+        private string contentRootPath;
+
+        public ApplicationStartup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            contentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            environment.ContentRootPath = contentRootPath;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -91,7 +95,7 @@ namespace Example.Webhosting
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(contentRootPath, "wwwroot")),
                 RequestPath = ""
             });
         }
@@ -115,8 +119,12 @@ namespace Example.Webhosting
 
         private Type GetBoundedContextTypeFromAssembly(string fullTypeName)
         {
+            string dllPath = Path.Combine(contentRootPath, "{0}.dll");
+
             return Type.GetType(fullTypeName, 
-                name => File.Exists(name.Name + ".dll") ? Assembly.LoadFrom(name.Name + ".dll") : null, 
+                name => File.Exists(String.Format(dllPath, name.Name)) 
+                    ? Assembly.LoadFrom(String.Format(dllPath, name.Name)) 
+                    : null, 
                 null);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Example.Webhosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ namespace Example.BoundedContext.Bar
 {
     public class BarStartup : ApplicationStartup
     {
-        public BarStartup(IConfiguration configuration) : base(configuration)
+        public BarStartup(IConfiguration configuration, IHostingEnvironment environment) 
+            : base(configuration, environment)
         {
         }
     }
